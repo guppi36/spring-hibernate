@@ -8,6 +8,7 @@ import javax.persistence.*;
 public class Car {
 
     @Id
+    @Column(name = "car_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -17,15 +18,14 @@ public class Car {
     @Column(name = "series")
     private int series;
 
-    @OneToOne (optional=false, mappedBy="user")
-    private User user;
+    @OneToOne (mappedBy="car")
+    private User owner;
 
     public Car() {}
 
-    public Car(String model, int series, User user) {
+    public Car(String model, int series) {
         this.model = model;
         this.series = series;
-        this.user = user;
     }
 
     public Long getId() {
@@ -52,9 +52,14 @@ public class Car {
         this.series = series;
     }
 
-    public User getUser() { return user; }
+    public User getUser() { return owner; }
 
     public void setUser(User user){
-        this.user = user;
+        this.owner = user;
+    }
+
+    @Override
+    public String toString(){
+        return model + " series: " + series;
     }
 }
